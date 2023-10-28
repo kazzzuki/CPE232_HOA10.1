@@ -1,0 +1,67 @@
+
+  - name: Add Elasticsearch YUM repository
+    yum_repository:
+      name: elasticsearch
+      description: Elasticsearch Repository
+      baseurl: https://artifacts.elastic.co/packages/7.x/yum
+      gpgcheck: yes
+      gpgkey: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    async: 3600
+    poll: 0
+
+  - name: Add Kibana YUM repository
+    yum_repository:
+      name: kibana
+      description: Kibana Repository
+      baseurl: https://artifacts.elastic.co/packages/7.x/yum
+      gpgcheck: yes
+      gpgkey: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    async: 3600
+    poll: 0
+
+  - name: Add Logstash YUM repository
+    yum_repository:
+      name: logstash
+      description: Logstash Repository
+      baseurl: https://artifacts.elastic.co/packages/7.x/yum
+      gpgcheck: yes
+      gpgkey: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    async: 3600
+    poll: 0
+
+  - name: Install Elasticsearch on CentOS
+    dnf:
+      name: elasticsearch
+      use_backend: dnf
+      state: present
+    async: 3600
+    poll: 0
+
+  - name: Install Kibana on CentOS
+    dnf:
+      name: kibana
+      use_backend: dnf
+      state: present
+    async: 3600
+    poll: 0
+
+  - name: Install Logstash on CentOS
+    dnf:
+      name: logstash
+      use_backend: dnf
+      state: present
+    async: 3600
+    poll: 0
+
+  - name: Enable and Start Elasticsearch, Kibana, and Logstash
+    systemd:
+      name: "{{ item }}"
+      enabled: yes
+      state: started
+    loop:
+      - elasticsearch
+      - kibana
+      - logstash
+    async: 3600
+    poll: 0
+
